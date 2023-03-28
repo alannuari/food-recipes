@@ -1,0 +1,38 @@
+import {LOADING_FAVORITES, SHOW_FAVORITES, TOGGLE_FAVORITES} from '../../type';
+
+const initialState = {
+  data: [],
+  loading: true,
+  error: false,
+};
+
+const FavoriteReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOADING_FAVORITES:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SHOW_FAVORITES:
+      return {
+        ...state,
+        data: action.payload,
+        loading: false,
+      };
+    case TOGGLE_FAVORITES:
+      return {
+        ...state,
+        data: state.data.map(item => {
+          if (item.id === action.payload) {
+            return {...item, isFavorite: !item.isFavorite};
+          } else {
+            return item;
+          }
+        }),
+      };
+    default:
+      return state;
+  }
+};
+
+export default FavoriteReducer;
