@@ -6,6 +6,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
 import {useSelector} from 'react-redux';
 import AddRecipeScreen from '../screens/AddRecipeScreen';
+import {color} from '@rneui/base';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,19 @@ const ButtomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          borderTopEndRadius: 15,
+          borderTopLeftRadius: 15,
+          height: 60,
+        },
+        tabBarIconStyle: {
+          fontSize: 40,
+          backgroundColor: 'red',
+        },
         tabBarIcon: ({focused, color, size}) => {
+          size = 30;
+          color = 'gray';
           let iconName = '';
 
           if (route.name === 'Home') {
@@ -32,8 +45,6 @@ const ButtomTab = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'blue',
-        tabBarInactiveTintColor: 'gray',
       })}>
       <Tab.Screen
         name="Home"
