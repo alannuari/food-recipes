@@ -1,15 +1,31 @@
 import React from 'react';
+import {TouchableOpacity, View, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
 import {useSelector} from 'react-redux';
 import AddRecipeScreen from '../screens/AddRecipeScreen';
-import {color} from '@rneui/base';
 import MyRecipesScreen from '../screens/MyRecipesScreen';
 
 const Tab = createBottomTabNavigator();
+
+const CustomTabBarButton = ({children, onPress}) => (
+  <TouchableOpacity onPress={onPress}>
+    <View
+      style={{
+        top: -18,
+        color: 'white',
+        width: 60,
+        height: 60,
+        backgroundColor: 'blue',
+        borderRadius: 30,
+      }}>
+      {children}
+    </View>
+  </TouchableOpacity>
+);
 
 const ButtomTab = () => {
   const {
@@ -19,6 +35,7 @@ const ButtomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
+        tabBarShowLabel: false,
         tabBarLabelStyle: {
           marginBottom: 5,
         },
@@ -26,7 +43,6 @@ const ButtomTab = () => {
           borderTopEndRadius: 15,
           borderTopLeftRadius: 15,
           height: 65,
-          paddingVertical: 10,
         },
         tabBarIcon: ({focused, color, size}) => {
           size = 30;
@@ -36,18 +52,26 @@ const ButtomTab = () => {
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Profile') {
-            iconName = focused ? 'person' : 'person-outline';
+            iconName = focused ? 'account' : 'account-outline';
           } else if (route.name === 'Favorites') {
             iconName = focused ? 'heart' : 'heart-outline';
           } else if (route.name === 'Add Recipe') {
-            iconName = focused ? 'add-circle' : 'add-circle-outline';
+            iconName = 'plus';
           } else if (route.name === 'My Recipes') {
-            iconName = focused ? 'book' : 'book-outline';
+            iconName = focused
+              ? 'book-open-page-variant'
+              : 'book-open-page-variant-outline';
           }
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return (
+            <MaterialCommunityIcons
+              name={iconName}
+              size={route.name === 'Add Recipe' ? 45 : size}
+              color={route.name === 'Add Recipe' ? 'white' : color}
+            />
+          );
         },
-        tabBarActiveTintColor: 'gray',
+        tabBarActiveTintColor: route.name === 'Add Recipe' ? 'white' : 'gray',
       })}>
       <Tab.Screen
         name="Home"
@@ -55,7 +79,13 @@ const ButtomTab = () => {
         options={{title: 'Category List'}}
       />
       <Tab.Screen name="My Recipes" component={MyRecipesScreen} />
-      <Tab.Screen name="Add Recipe" component={AddRecipeScreen} />
+      <Tab.Screen
+        name="Add Recipe"
+        component={AddRecipeScreen}
+        options={{
+          tabBarButton: props => <CustomTabBarButton {...props} />,
+        }}
+      />
       <Tab.Screen
         name="Favorites"
         component={FavoriteScreen}
