@@ -28,10 +28,9 @@ const CustomTabBarButton = ({children, onPress}) => (
 );
 
 const ButtomTab = () => {
-  const {
-    data: {recipes},
-  } = useSelector(item => item.category);
+  const {data: recipes} = useSelector(item => item.favorite);
   const favLength = recipes?.filter(item => item.isFavorite).length;
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -89,7 +88,17 @@ const ButtomTab = () => {
       <Tab.Screen
         name="Favorites"
         component={FavoriteScreen}
-        options={favLength > 0 ? {tabBarBadge: favLength} : false}
+        options={
+          favLength > 0
+            ? {
+                tabBarBadge: favLength,
+                tabBarBadgeStyle: {
+                  backgroundColor: 'blue',
+                  top: 10,
+                },
+              }
+            : false
+        }
       />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
