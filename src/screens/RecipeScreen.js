@@ -26,19 +26,15 @@ const RecipeScreen = ({route, navigation}) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          data={loading ? Array(8).fill() : data}
-          renderItem={({item}) => {
-            return loading ? (
-              <SkeletonItem />
-            ) : (
-              <RecipeItem
-                id={item.id}
-                title={item.title}
-                imageUrl={item.imageUrl}
-                navigation={navigation}
-              />
-            );
-          }}
+          data={data}
+          renderItem={({item}) => (
+            <RecipeItem
+              id={item.id}
+              title={item.title}
+              imageUrl={item.imageUrl}
+              navigation={navigation}
+            />
+          )}
         />
       ) : (
         <NotFoundScreen />
