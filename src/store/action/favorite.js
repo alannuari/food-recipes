@@ -1,7 +1,7 @@
 import {LOADING_FAVORITES, SHOW_FAVORITES} from '../type';
 import firestore from '@react-native-firebase/firestore';
 
-export const fetchFavorite = () => {
+export const fetchFavorite = userId => {
   return async dispatch => {
     let data = [];
     dispatch({type: LOADING_FAVORITES});
@@ -9,11 +9,13 @@ export const fetchFavorite = () => {
       firestore()
         .collection('Posts')
         .where('isFavorite', '==', true)
+        .where('userId', '==', userId)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             data.push({...doc.data(), id: doc.id});
           });
+          console.log(data);
           dispatch({
             type: SHOW_FAVORITES,
             payload: data,
