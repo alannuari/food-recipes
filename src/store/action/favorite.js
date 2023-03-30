@@ -15,7 +15,6 @@ export const fetchFavorite = userId => {
           querySnapshot.forEach(doc => {
             data.push({...doc.data(), id: doc.id});
           });
-          console.log(data);
           dispatch({
             type: SHOW_FAVORITES,
             payload: data,
