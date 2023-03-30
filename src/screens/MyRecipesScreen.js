@@ -4,52 +4,44 @@ import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../navigations/AuthProvider';
 import RecipeItem from '../components/RecipeItem';
 import SkeletonItem from '../components/SkeletonItem';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchPost} from '../store/action/post';
+import NotFoundScreen from './NotFoundScreen';
 
 const MyRecipesScreen = ({navigation}) => {
   const {user} = useContext(AuthContext);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const {data, loading} = useSelector(state => state.post);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    let arr = [];
-    try {
-      setLoading(true);
-      firestore()
-        .collection('Posts')
-        .where('userId', '==', user.uid)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            arr.push({...doc.data(), id: doc.id});
-          });
-          setData(arr);
-        });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    dispatch(fetchPost(user.uid));
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
-        data={loading ? Array(8).fill() : data}
-        renderItem={({item}) => {
-          return loading ? (
-            <SkeletonItem />
-          ) : (
+      {loading ? (
+        <FlatList
+          numColumns={2}
+          data={Array(8).fill()}
+          renderItem={() => <SkeletonItem />}
+        />
+      ) : data.length > 0 ? (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          data={data}
+          renderItem={({item}) => (
             <RecipeItem
               id={item.id}
               title={item.title}
               imageUrl={item.imageUrl}
               navigation={navigation}
             />
-          );
-        }}
-      />
+          )}
+        />
+      ) : (
+        <NotFoundScreen />
+      )}
     </View>
   );
 };
