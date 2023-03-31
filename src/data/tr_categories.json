@@ -1,0 +1,14 @@
+{
+  "data": [
+    {"id": "0", "name": "Summer"},
+    {"id": "1", "name": "Pizza"},
+    {"id": "2", "name": "Snacks"},
+    {"id": "3", "name": "Hamburgers"},
+    {"id": "4", "name": "Swist"},
+    {"id": "5", "name": "Spaghetti"},
+    {"id": "6", "name": "Exotic"},
+    {"id": "7", "name": "Breakfast"},
+    {"id": "8", "name": "Asian"},
+    {"id": "9", "name": "Other"}
+  ]
+}
