@@ -1,6 +1,6 @@
-import React, {useLayoutEffect, useState, useEffect} from 'react';
+import React, {useContext, useLayoutEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, Text, ScrollView, Image, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, Image, StyleSheet, Button} from 'react-native';
 import Fork from '../assets/icons/fork.svg';
 import Clock from '../assets/icons/clock.svg';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
@@ -9,8 +9,10 @@ import {toggleFavorite} from '../store/action/favorite';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import Loading from '../components/Loading';
 import complexities from '../data/tr_complexities.json';
+import {AuthContext} from '../navigations/AuthProvider';
 
 const DetailsScreen = ({route, navigation}) => {
+  const {user} = useContext(AuthContext);
   const {data} = useSelector(state => state.favorite);
   const dispatch = useDispatch();
   const [detail, setDetail] = useState({});
@@ -91,6 +93,17 @@ const DetailsScreen = ({route, navigation}) => {
           </View>
         )}
       </View>
+      {detail?.userId === user.uid && (
+        <View style={styles.btn}>
+          <Button
+            onPress={() => console.log('delete')}
+            title="Delete"
+            radius={'sm'}
+            type="solid"
+            color="#ff7171"
+          />
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -133,6 +146,10 @@ const styles = StyleSheet.create({
   item: {
     marginLeft: 10,
     lineHeight: 22,
+  },
+  btn: {
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
 });
 
