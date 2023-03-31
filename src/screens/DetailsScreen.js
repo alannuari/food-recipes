@@ -8,6 +8,7 @@ import HeaderButtonIcon from '../components/HeaderButtonIcon';
 import {toggleFavorite} from '../store/action/favorite';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import Loading from '../components/Loading';
+import complexities from '../data/tr_complexities.json';
 
 const DetailsScreen = ({route, navigation}) => {
   const {data} = useSelector(state => state.favorite);
@@ -65,7 +66,13 @@ const DetailsScreen = ({route, navigation}) => {
               <View style={styles.line}></View>
               <View>
                 <Fork height={20} style={{marginBottom: 5}} />
-                <Text>{detail.complexity}</Text>
+                <Text>
+                  {
+                    complexities.data.find(
+                      item => item.id === detail.complexity,
+                    )?.name
+                  }
+                </Text>
               </View>
             </View>
             <Text style={styles.title}>{detail.title}</Text>
