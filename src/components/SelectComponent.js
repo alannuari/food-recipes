@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import categories from '../data/tr_categories.json';
 
 const SelectComponent = ({value, setValue, data, placeholder}) => {
   return (
