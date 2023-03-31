@@ -10,6 +10,12 @@ const InputComponent = ({placeholder, name, label, value, setValue}) => {
       value={value}
       onChangeText={val => setValue(val)}
       leftIcon={<FontAwesome name={name} size={20} />}
+      containerStyle={{
+        paddingHorizontal: 0,
+      }}
+      style={{
+        marginHorizontal: 8,
+      }}
     />
   );
 };
