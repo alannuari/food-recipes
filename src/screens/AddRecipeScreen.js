@@ -152,7 +152,7 @@ const AddRecipeScreen = () => {
           <Text style={styles.label}>Category</Text>
           <SelectComponent
             placeholder="Category"
-            value={duration}
+            value={category}
             setValue={setCategory}
             data={categories.data}
           />

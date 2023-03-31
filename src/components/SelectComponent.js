@@ -6,13 +6,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const SelectComponent = ({value, setValue, data, placeholder}) => {
   return (
     <SelectDropdown
-      defaultValue={value}
+      value={value}
       data={data}
       onSelect={item => {
         setValue(item.id);
       }}
       buttonTextAfterSelection={selectedItem => {
-        return selectedItem.name;
+        return value !== '' ? selectedItem.name : placeholder;
       }}
       rowTextForSelection={item => {
         return item.name;
