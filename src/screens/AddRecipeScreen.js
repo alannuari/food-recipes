@@ -1,5 +1,12 @@
 import React, {useContext, useState} from 'react';
-import {View, StyleSheet, ScrollView, Dimensions, Alert} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  Alert,
+  Text,
+} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {Button} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,6 +14,9 @@ import InputComponent from '../components/InputComponent';
 import randomIndex from '../helper/randomIndex';
 import {AuthContext} from '../navigations/AuthProvider';
 import ButtonComponent from '../components/ButtonComponent';
+import SelectComponent from '../components/SelectComponent';
+import categories from '../data/tr_categories.json';
+import complexities from '../data/tr_complexities.json';
 
 const AddRecipeScreen = () => {
   const [loading, setLoading] = useState(false);
@@ -127,43 +137,45 @@ const AddRecipeScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <View style={styles.input}>
+          <Text style={styles.label}>Title</Text>
           <InputComponent
             placeholder="Title"
-            label="Title"
             value={title}
             setValue={setTitle}
           />
         </View>
         <View style={styles.input}>
-          <InputComponent
+          <Text style={styles.label}>Category</Text>
+          <SelectComponent
             placeholder="Category"
-            label="Category"
-            value={category}
+            value={duration}
             setValue={setCategory}
+            data={categories.data}
           />
         </View>
         <View style={styles.input}>
+          <Text style={styles.label}>Duration</Text>
           <InputComponent
             placeholder="Duration (minute)"
-            label="Duration"
             value={duration}
             setValue={setDuration}
           />
         </View>
         <View style={styles.input}>
-          <InputComponent
-            placeholder="Complexity"
-            label="Complexity"
+          <Text style={styles.label}>Complexity</Text>
+          <SelectComponent
+            placeholder="Duration"
             value={complexity}
             setValue={setComplexity}
+            data={complexities.data}
           />
         </View>
         <View style={styles.array}>
+          <Text style={styles.label}>Ingredients</Text>
           {ingredients.map((item, idx) => (
             <View key={item.id} style={styles.item}>
               <InputComponent
                 placeholder="Ingredient"
-                label={idx === 0 ? 'Ingredients' : ''}
                 value={item.value}
                 setValue={val =>
                   setIngredients(
@@ -194,11 +206,12 @@ const AddRecipeScreen = () => {
           ))}
         </View>
         <View style={styles.array}>
+          <Text style={styles.label}>Steps</Text>
+
           {steps.map((item, idx) => (
             <View key={item.id} style={styles.item}>
               <InputComponent
                 placeholder="Step"
-                label={idx === 0 ? 'Steps' : ''}
                 value={item.value}
                 setValue={val =>
                   setSteps(
@@ -242,7 +255,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     margin: 10,
-    paddingHorizontal: 8,
+    paddingHorizontal: 12,
     paddingTop: 12,
     paddingBottom: 22,
     borderRadius: 5,
@@ -250,13 +263,16 @@ const styles = StyleSheet.create({
   input: {
     marginVertical: 6,
   },
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   array: {
     marginVertical: 6,
   },
   item: {
     width: Dimensions.get('window').width - 90,
     flexDirection: 'row',
-    columnGap: 5,
   },
   text: {
     fontWeight: 'bold',
