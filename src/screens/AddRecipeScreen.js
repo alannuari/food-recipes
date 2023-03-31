@@ -17,10 +17,13 @@ import ButtonComponent from '../components/ButtonComponent';
 import SelectComponent from '../components/SelectComponent';
 import categories from '../data/tr_categories.json';
 import complexities from '../data/tr_complexities.json';
+import {useDispatch} from 'react-redux';
+import {fetchPost} from '../store/action/post';
 
 const AddRecipeScreen = () => {
   const [loading, setLoading] = useState(false);
   const {user} = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [duration, setDuration] = useState('');
@@ -93,11 +96,6 @@ const AddRecipeScreen = () => {
           isFavorite: false,
         })
         .then(() => {
-          Alert.alert('Success', 'Recipe added!', [
-            {
-              text: 'OK',
-            },
-          ]);
           setTitle('');
           setCategory('');
           setDuration('');
@@ -112,6 +110,12 @@ const AddRecipeScreen = () => {
             {
               id: randomIndex(),
               value: '',
+            },
+          ]);
+          dispatch(fetchPost(user.uid));
+          Alert.alert('Success', 'Recipe added!', [
+            {
+              text: 'OK',
             },
           ]);
         })
@@ -164,7 +168,7 @@ const AddRecipeScreen = () => {
         <View style={styles.input}>
           <Text style={styles.label}>Complexity</Text>
           <SelectComponent
-            placeholder="Duration"
+            placeholder="Complexity"
             value={complexity}
             setValue={setComplexity}
             data={complexities.data}
