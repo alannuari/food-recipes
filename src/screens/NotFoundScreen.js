@@ -9,9 +9,7 @@ const NotFoundScreen = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-        Sorry, data is not found!
-      </Text>
+      <Text style={{fontSize: 16}}>Sorry, data is not found!</Text>
     </View>
   );
 };
