@@ -1,23 +1,44 @@
 import {LOADING_FAVORITES, SHOW_FAVORITES} from '../type';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {firebase} from '@react-native-firebase/firestore';
 
 export const fetchFavorite = userId => {
   return async dispatch => {
-    let data = [];
+    let dataRelation = [];
+    let favorite = [];
     dispatch({type: LOADING_FAVORITES});
     try {
       firestore()
-        .collection('Posts')
-        .where('favorite', 'array-contains', userId)
+        .collection('Favorites')
+        .where('userId', '==', userId)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            data.push({...doc.data(), id: doc.id});
+            dataRelation.push({...doc.data(), id: doc.id});
           });
-          dispatch({
-            type: SHOW_FAVORITES,
-            payload: data,
-          });
+          if (dataRelation.length > 0) {
+            firestore()
+              .collection('Recipes')
+              .where(
+                firebase.firestore.FieldPath.documentId(),
+                'in',
+                dataRelation.map(item => item.recipeId),
+              )
+              .get()
+              .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                  favorite.push({...doc.data(), id: doc.id});
+                });
+                dispatch({
+                  type: SHOW_FAVORITES,
+                  payload: favorite,
+                });
+              });
+          } else {
+            dispatch({
+              type: SHOW_FAVORITES,
+              payload: favorite,
+            });
+          }
         });
     } catch (error) {
       console.log(error);
@@ -26,19 +47,30 @@ export const fetchFavorite = userId => {
 };
 
 export const toggleFavorite = (data, userId) => {
+  let favorite = [];
   return async dispatch => {
-    firestore()
-      .collection('Posts')
-      .doc(data.id)
-      .update({
-        ...data,
-        favorite: data.favorite.includes(userId)
-          ? data.favorite.splice(data.favorite.indexOf(userId), 1)
-          : data.favorite.push(userId),
-      })
-      .then(() => {
-        dispatch(fetchFavorite());
-      })
-      .catch(error => console.log(error));
+    try {
+      await firestore()
+        .collection('Favorites')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            favorite.push({...doc.data(), id: doc.id});
+          });
+        });
+
+      if (favorite.map(item => item.userId).includes(userId)) {
+        const favoriteId = favorite.find(item => item.userId === userId)?.id;
+        await firestore().collection('Favorites').doc(favoriteId).delete();
+      } else {
+        await firestore().collection('Favorites').add({
+          userId: userId,
+          recipeId: data.id,
+        });
+      }
+      dispatch(fetchFavorite(userId));
+    } catch (error) {
+      console.log(error);
+    }
   };
 };

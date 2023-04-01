@@ -24,10 +24,10 @@ import {fetchRecipe} from '../store/action/recipe';
 
 const DetailsScreen = ({route, navigation}) => {
   const {user} = useContext(AuthContext);
-  const {data} = useSelector(state => state.favorite);
   const dispatch = useDispatch();
   const [detail, setDetail] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(null);
 
   const deletePostHandler = async detail => {
     try {
@@ -35,7 +35,7 @@ const DetailsScreen = ({route, navigation}) => {
       const imageRef = storage().ref(storageRef.fullPath);
 
       await imageRef.delete();
-      await firestore().collection('Posts').doc(detail.id).delete();
+      await firestore().collection('Recipes').doc(detail.id).delete();
 
       Alert.alert('Success', 'Recipe has been deleted successfully!', [
         {
@@ -55,12 +55,27 @@ const DetailsScreen = ({route, navigation}) => {
     }
   };
 
-  useLayoutEffect(() => {
+  const isFavoriteHandler = async () => {
+    let favorite = [];
+    await firestore()
+      .collection('Favorites')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          favorite.push({...doc.data(), id: doc.id});
+        });
+      });
+
+    return favorite.map(item => item.userId).includes(user.uid);
+  };
+
+  const getDetails = async () => {
+    let obj = {};
     try {
-      let obj = {};
-      setLoading(true);
-      firestore()
-        .collection('Posts')
+      const favorite = await isFavoriteHandler();
+      setIsFavorite(favorite);
+      await firestore()
+        .collection('Recipes')
         .where(firebase.firestore.FieldPath.documentId(), '==', route.params)
         .get()
         .then(querySnapshot => {
@@ -68,28 +83,32 @@ const DetailsScreen = ({route, navigation}) => {
             obj = {...doc.data(), id: doc.id};
             setDetail(obj);
           });
-          setLoading(false);
           navigation.setOptions({
             headerRight: () => (
               <HeaderButtons HeaderButtonComponent={HeaderButtonIcon}>
                 <Item
                   title="favorite"
-                  iconName={
-                    obj.favorite.includes(user.uid)
-                      ? 'ios-star'
-                      : 'ios-star-outline'
-                  }
-                  onPress={() => dispatch(toggleFavorite(obj, user.uid))}
+                  iconName={favorite ? 'ios-star' : 'ios-star-outline'}
+                  onPress={async () => {
+                    dispatch(toggleFavorite(obj, user.uid));
+                    const favorite = await isFavoriteHandler();
+                    setIsFavorite(favorite);
+                  }}
                 />
               </HeaderButtons>
             ),
           });
         });
     } catch (error) {
-      setLoading(false);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
-  }, [dispatch, data.length]);
+  };
+
+  useLayoutEffect(() => {
+    getDetails();
+  }, [isFavorite]);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
