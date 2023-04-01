@@ -6,6 +6,7 @@ import {
   Dimensions,
   Alert,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {Button} from '@rneui/themed';
@@ -137,9 +138,28 @@ const AddRecipeScreen = () => {
     }
   };
 
+  const takePhotoHandler = () => {};
+
+  const choosePhotoHandler = () => {};
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
+        <View style={styles.input}>
+          <Text style={styles.label}>Image</Text>
+          <View style={styles.image}>
+            <TouchableOpacity
+              style={styles.btnImage}
+              onPress={takePhotoHandler}>
+              <Text>Take Photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnImage}
+              onPress={choosePhotoHandler}>
+              <Text>Choose From Library</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
         <View style={styles.input}>
           <Text style={styles.label}>Title</Text>
           <InputComponent
@@ -266,6 +286,22 @@ const styles = StyleSheet.create({
   },
   input: {
     marginVertical: 6,
+  },
+  image: {
+    height: 200,
+    marginVertical: 15,
+    rowGap: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderStyle: 'dashed',
+    borderRadius: 5,
+  },
+  btnImage: {
+    backgroundColor: '#e1e1e3',
+    paddingVertical: 5,
+    paddingHorizontal: 8,
   },
   label: {
     fontSize: 18,
