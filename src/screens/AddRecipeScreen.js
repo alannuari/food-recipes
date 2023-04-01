@@ -10,6 +10,7 @@ import {
   Image,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import {Button} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import InputComponent from '../components/InputComponent';
@@ -73,10 +74,11 @@ const AddRecipeScreen = () => {
     setSteps(steps.filter(item => item.id !== id));
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     const validIngredients = !ingredients.map(item => item.value).includes('');
     const validSteps = !steps.map(item => item.value).includes('');
     if (
+      image &&
       title &&
       category &&
       duration &&
@@ -85,53 +87,53 @@ const AddRecipeScreen = () => {
       validSteps
     ) {
       setLoading(true);
-      firestore()
-        .collection('Posts')
-        .add({
+      try {
+        const url = await uploadImageHandler();
+        await firestore().collection('Posts').add({
           userId: user.uid,
           category,
           title,
           complexity,
-          imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg',
+          imageUrl: url,
           duration,
           ingredients,
           steps,
           isFavorite: false,
-        })
-        .then(() => {
-          setTitle('');
-          setCategory('');
-          setDuration('');
-          setComplexity('');
-          setSteps([
-            {
-              id: randomIndex(),
-              value: '',
-            },
-          ]);
-          setIngredients([
-            {
-              id: randomIndex(),
-              value: '',
-            },
-          ]);
-          dispatch(fetchPost(user.uid));
-          Alert.alert('Success', 'Recipe added!', [
-            {
-              text: 'OK',
-            },
-          ]);
-        })
-        .catch(error => {
-          Alert.alert('Error', 'Recipe failed to add!', [
-            {
-              text: 'OK',
-            },
-          ]);
-          console.log('Some error: ', error);
-        })
-        .finally(() => setLoading(false));
+        });
+
+        setImage('');
+        setTitle('');
+        setCategory('');
+        setDuration('');
+        setComplexity('');
+        setSteps([
+          {
+            id: randomIndex(),
+            value: '',
+          },
+        ]);
+        setIngredients([
+          {
+            id: randomIndex(),
+            value: '',
+          },
+        ]);
+        dispatch(fetchPost(user.uid));
+        Alert.alert('Success', 'Recipe added!', [
+          {
+            text: 'OK',
+          },
+        ]);
+      } catch (error) {
+        Alert.alert('Error', 'Recipe failed to add!', [
+          {
+            text: 'OK',
+          },
+        ]);
+        console.log('Some error: ', error);
+      } finally {
+        setLoading(false);
+      }
     } else {
       Alert.alert('Warning', 'All data cannot be empty', [
         {
@@ -163,6 +165,21 @@ const AddRecipeScreen = () => {
         setImage(image.path);
       })
       .catch(error => console.log(error));
+  };
+
+  uploadImageHandler = async () => {
+    const uploadUri = image;
+    let fileName = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+    const index = fileName.lastIndexOf('.');
+    const extention = fileName.substring(index + 1);
+    const name = fileName.substring(0, index);
+    fileName = name + Date.now() + '.' + extention;
+
+    await storage().ref(fileName).putFile(uploadUri);
+    const url = await storage().ref(fileName).getDownloadURL();
+
+    return url;
   };
 
   return (
