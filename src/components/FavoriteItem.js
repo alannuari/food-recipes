@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import complexities from '../data/tr_complexities.json';
 
 const FavoriteItem = ({id, title, imageUrl, complexity, navigation}) => {
   const pressHandler = () => {
@@ -12,7 +13,9 @@ const FavoriteItem = ({id, title, imageUrl, complexity, navigation}) => {
         <Image style={styles.image} source={{uri: imageUrl}} />
         <View style={styles.infoContainer}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.complexity}>{complexity}</Text>
+          <Text style={styles.complexity}>
+            {complexities.data.find(item => item.id === complexity)?.name}
+          </Text>
         </View>
       </TouchableOpacity>
     </View>

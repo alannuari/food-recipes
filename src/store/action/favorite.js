@@ -52,6 +52,7 @@ export const toggleFavorite = (data, userId) => {
     try {
       await firestore()
         .collection('Favorites')
+        .where('userId', '==', userId)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
@@ -59,8 +60,8 @@ export const toggleFavorite = (data, userId) => {
           });
         });
 
-      if (favorite.map(item => item.userId).includes(userId)) {
-        const favoriteId = favorite.find(item => item.userId === userId)?.id;
+      if (favorite.map(item => item.recipeId).includes(data.id)) {
+        const favoriteId = favorite.find(item => item.recipeId === data.id)?.id;
         await firestore().collection('Favorites').doc(favoriteId).delete();
       } else {
         await firestore().collection('Favorites').add({

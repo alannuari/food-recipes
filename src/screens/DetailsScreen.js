@@ -27,7 +27,7 @@ const DetailsScreen = ({route, navigation}) => {
   const dispatch = useDispatch();
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(true);
-  const [isFavorite, setIsFavorite] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const deletePostHandler = async detail => {
     try {
@@ -55,10 +55,11 @@ const DetailsScreen = ({route, navigation}) => {
     }
   };
 
-  const isFavoriteHandler = async () => {
+  const getDataFavoritesByUser = async () => {
     let favorite = [];
     await firestore()
       .collection('Favorites')
+      .where('userId', '==', user.uid)
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -66,14 +67,13 @@ const DetailsScreen = ({route, navigation}) => {
         });
       });
 
-    return favorite.map(item => item.userId).includes(user.uid);
+    return favorite.map(item => item.recipeId);
   };
 
   const getDetails = async () => {
     let obj = {};
     try {
-      const favorite = await isFavoriteHandler();
-      setIsFavorite(favorite);
+      const favorite = await getDataFavoritesByUser();
       await firestore()
         .collection('Recipes')
         .where(firebase.firestore.FieldPath.documentId(), '==', route.params)
@@ -82,17 +82,20 @@ const DetailsScreen = ({route, navigation}) => {
           querySnapshot.forEach(doc => {
             obj = {...doc.data(), id: doc.id};
             setDetail(obj);
+            setIsFavorite(favorite.includes(obj.id));
           });
           navigation.setOptions({
             headerRight: () => (
               <HeaderButtons HeaderButtonComponent={HeaderButtonIcon}>
                 <Item
                   title="favorite"
-                  iconName={favorite ? 'ios-star' : 'ios-star-outline'}
+                  iconName={
+                    favorite.includes(obj.id) ? 'ios-star' : 'ios-star-outline'
+                  }
                   onPress={async () => {
                     dispatch(toggleFavorite(obj, user.uid));
-                    const favorite = await isFavoriteHandler();
-                    setIsFavorite(favorite);
+                    const favorite = await getDataFavoritesByUser();
+                    setIsFavorite(favorite.includes(obj.id));
                   }}
                 />
               </HeaderButtons>
