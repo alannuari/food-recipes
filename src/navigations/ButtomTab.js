@@ -34,6 +34,10 @@ const ButtomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         tabBarShowLabel: false,
         tabBarLabelStyle: {
           marginBottom: 5,
@@ -75,7 +79,7 @@ const ButtomTab = () => {
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        options={{title: 'Category List'}}
+        options={{headerShown: false}}
       />
       <Tab.Screen name="My Recipes" component={MyRecipesScreen} />
       <Tab.Screen
@@ -85,21 +89,7 @@ const ButtomTab = () => {
           tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
-      <Tab.Screen
-        name="Favorites"
-        component={FavoriteScreen}
-        options={
-          favLength > 0
-            ? {
-                tabBarBadge: favLength,
-                tabBarBadgeStyle: {
-                  backgroundColor: 'blue',
-                  top: 10,
-                },
-              }
-            : false
-        }
-      />
+      <Tab.Screen name="Favorites" component={FavoriteScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
