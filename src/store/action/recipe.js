@@ -7,7 +7,7 @@ export const fetchRecipe = id => {
     dispatch({type: LOADING_RECIPES});
     try {
       firestore()
-        .collection('Posts')
+        .collection('Recipes')
         .where('category', '==', id)
         .get()
         .then(querySnapshot => {

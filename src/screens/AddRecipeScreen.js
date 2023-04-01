@@ -89,7 +89,7 @@ const AddRecipeScreen = () => {
       setLoading(true);
       try {
         const url = await uploadImageHandler();
-        await firestore().collection('Posts').add({
+        await firestore().collection('Recipes').add({
           userId: user.uid,
           category,
           title,
@@ -98,7 +98,6 @@ const AddRecipeScreen = () => {
           duration,
           ingredients,
           steps,
-          favorite: [],
         });
 
         setImage('');

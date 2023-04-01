@@ -7,7 +7,7 @@ export const fetchPost = userId => {
     dispatch({type: LOADING_POSTS});
     try {
       firestore()
-        .collection('Posts')
+        .collection('Recipes')
         .where('userId', '==', userId)
         .get()
         .then(querySnapshot => {
