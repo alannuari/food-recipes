@@ -7,6 +7,7 @@ import {
   Alert,
   Text,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {Button} from '@rneui/themed';
@@ -20,12 +21,14 @@ import categories from '../data/tr_categories.json';
 import complexities from '../data/tr_complexities.json';
 import {useDispatch} from 'react-redux';
 import {fetchPost} from '../store/action/post';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 const AddRecipeScreen = () => {
   const [loading, setLoading] = useState(false);
   const {user} = useContext(AuthContext);
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
   const [category, setCategory] = useState('');
   const [duration, setDuration] = useState('');
   const [complexity, setComplexity] = useState('');
@@ -138,27 +141,75 @@ const AddRecipeScreen = () => {
     }
   };
 
-  const takePhotoHandler = () => {};
+  const takePhotoHandler = () => {
+    ImageCropPicker.openCamera({
+      width: 400,
+      height: 200,
+      cropping: true,
+    })
+      .then(image => {
+        setImage(image.path);
+      })
+      .catch(error => console.log(error));
+  };
 
-  const choosePhotoHandler = () => {};
+  const choosePhotoHandler = () => {
+    ImageCropPicker.openPicker({
+      width: 400,
+      height: 200,
+      cropping: true,
+    })
+      .then(image => {
+        setImage(image.path);
+      })
+      .catch(error => console.log(error));
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <View style={styles.input}>
           <Text style={styles.label}>Image</Text>
-          <View style={styles.image}>
-            <TouchableOpacity
-              style={styles.btnImage}
-              onPress={takePhotoHandler}>
-              <Text>Take Photo</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnImage}
-              onPress={choosePhotoHandler}>
-              <Text>Choose From Library</Text>
-            </TouchableOpacity>
-          </View>
+
+          {image ? (
+            <View>
+              <Image
+                source={{uri: image}}
+                style={{
+                  height: 200,
+                  marginTop: 15,
+                  marginBottom: 10,
+                  borderRadius: 5,
+                }}
+              />
+              <View
+                style={{
+                  alignItems: 'center',
+                  marginLeft: 'auto',
+                }}>
+                <Button
+                  onPress={() => setImage('')}
+                  radius={'sm'}
+                  type="solid"
+                  color="#ff7171">
+                  <Ionicons name="trash" size={20} />
+                </Button>
+              </View>
+            </View>
+          ) : (
+            <View style={styles.image}>
+              <TouchableOpacity
+                style={styles.btnImage}
+                onPress={takePhotoHandler}>
+                <Text>Take Photo</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.btnImage}
+                onPress={choosePhotoHandler}>
+                <Text>Choose From Library</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
         <View style={styles.input}>
           <Text style={styles.label}>Title</Text>
