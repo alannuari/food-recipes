@@ -8,8 +8,7 @@ export const fetchFavorite = userId => {
     try {
       firestore()
         .collection('Posts')
-        .where('isFavorite', '==', true)
-        .where('userId', '==', userId)
+        .where('favorite', 'array-contains', userId)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
@@ -26,14 +25,16 @@ export const fetchFavorite = userId => {
   };
 };
 
-export const toggleFavorite = data => {
+export const toggleFavorite = (data, userId) => {
   return async dispatch => {
     firestore()
       .collection('Posts')
       .doc(data.id)
       .update({
         ...data,
-        isFavorite: !data.isFavorite,
+        favorite: data.favorite.includes(userId)
+          ? data.favorite.splice(data.favorite.indexOf(userId), 1)
+          : data.favorite.push(userId),
       })
       .then(() => {
         dispatch(fetchFavorite());

@@ -74,8 +74,12 @@ const DetailsScreen = ({route, navigation}) => {
               <HeaderButtons HeaderButtonComponent={HeaderButtonIcon}>
                 <Item
                   title="favorite"
-                  iconName={obj.isFavorite ? 'ios-star' : 'ios-star-outline'}
-                  onPress={() => dispatch(toggleFavorite(obj))}
+                  iconName={
+                    obj.favorite.includes(user.uid)
+                      ? 'ios-star'
+                      : 'ios-star-outline'
+                  }
+                  onPress={() => dispatch(toggleFavorite(obj, user.uid))}
                 />
               </HeaderButtons>
             ),

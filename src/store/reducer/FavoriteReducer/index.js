@@ -24,7 +24,7 @@ const FavoriteReducer = (state = initialState, action) => {
         ...state,
         data: state.data.map(item => {
           if (item.id === action.payload) {
-            return {...item, isFavorite: !item.isFavorite};
+            return {...item, favorite: item.favorite};
           } else {
             return item;
           }

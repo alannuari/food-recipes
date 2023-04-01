@@ -98,7 +98,7 @@ const AddRecipeScreen = () => {
           duration,
           ingredients,
           steps,
-          isFavorite: false,
+          favorite: [],
         });
 
         setImage('');
