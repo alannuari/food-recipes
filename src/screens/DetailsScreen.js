@@ -15,6 +15,7 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import HeaderButtonIcon from '../components/HeaderButtonIcon';
 import {toggleFavorite} from '../store/action/favorite';
 import firestore, {firebase} from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import Loading from '../components/Loading';
 import complexities from '../data/tr_complexities.json';
 import {AuthContext} from '../navigations/AuthProvider';
@@ -28,29 +29,30 @@ const DetailsScreen = ({route, navigation}) => {
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const deletePostHandler = detail => {
-    firestore()
-      .collection('Posts')
-      .doc(detail.id)
-      .delete()
-      .then(() => {
-        Alert.alert('Success', 'Recipe has been deleted successfully!', [
-          {
-            text: 'OK',
-            onPress: () => navigation.goBack(),
-          },
-        ]);
-        dispatch(fetchRecipe(detail.category));
-        dispatch(fetchPost(user.uid));
-      })
-      .catch(error => {
-        Alert.alert('Error', 'Failed to delete recipe!', [
-          {
-            text: 'OK',
-          },
-        ]);
-        console.log(error);
-      });
+  const deletePostHandler = async detail => {
+    try {
+      const storageRef = storage().refFromURL(detail.imageUrl);
+      const imageRef = storage().ref(storageRef.fullPath);
+
+      await imageRef.delete();
+      await firestore().collection('Posts').doc(detail.id).delete();
+
+      Alert.alert('Success', 'Recipe has been deleted successfully!', [
+        {
+          text: 'OK',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+      dispatch(fetchRecipe(detail.category));
+      dispatch(fetchPost(user.uid));
+    } catch (error) {
+      Alert.alert('Error', 'Failed to delete recipe!', [
+        {
+          text: 'OK',
+        },
+      ]);
+      console.log(error);
+    }
   };
 
   useLayoutEffect(() => {
