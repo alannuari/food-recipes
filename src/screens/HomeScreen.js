@@ -1,6 +1,7 @@
 import React, {useLayoutEffect, useContext} from 'react';
-import {View, FlatList, StyleSheet} from 'react-native';
+import {View, FlatList, StyleSheet, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import Carousel from '../components/Carousel';
 import CategoryItem from '../components/CategoryItem';
 import SkeletonItem from '../components/SkeletonItem';
 import {AuthContext} from '../navigations/AuthProvider';
@@ -19,6 +20,7 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Carousel />
       <FlatList
         showsVerticalScrollIndicator={false}
         numColumns={2}
@@ -43,7 +45,7 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 5,
+    marginBottom: 5,
   },
 });
 
