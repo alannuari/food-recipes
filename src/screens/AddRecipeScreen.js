@@ -214,15 +214,23 @@ const AddRecipeScreen = () => {
             </View>
           ) : (
             <View style={styles.image}>
-              <TouchableOpacity
-                style={styles.btnImage}
-                onPress={takePhotoHandler}>
-                <Text>Take Photo</Text>
+              <TouchableOpacity style={styles.btnImage}>
+                <Button
+                  onPress={takePhotoHandler}
+                  radius={'sm'}
+                  type="solid"
+                  color="#e1e1e1">
+                  <Ionicons name="camera" size={20} />
+                </Button>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.btnImage}
-                onPress={choosePhotoHandler}>
-                <Text>Choose From Library</Text>
+              <TouchableOpacity style={styles.btnImage}>
+                <Button
+                  onPress={choosePhotoHandler}
+                  radius={'sm'}
+                  type="solid"
+                  color="#e1e1e1">
+                  <Ionicons name="folder" size={20} />
+                </Button>
               </TouchableOpacity>
             </View>
           )}
@@ -356,8 +364,9 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 200,
+    flexDirection: 'row',
     marginVertical: 15,
-    rowGap: 15,
+    columnGap: 15,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
@@ -367,8 +376,8 @@ const styles = StyleSheet.create({
   },
   btnImage: {
     backgroundColor: '#e1e1e3',
-    paddingVertical: 5,
-    paddingHorizontal: 8,
+    padding: 8,
+    borderRadius: 5,
   },
   label: {
     fontSize: 18,
