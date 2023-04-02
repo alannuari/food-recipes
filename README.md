@@ -23,4 +23,4 @@ Food Recipes adalah aplikasi android yang digunakan untuk menampilkan dan menamb
 ![BeFunky-collage (2)](https://user-images.githubusercontent.com/94782135/229340192-5a20f6e5-94f6-489c-8824-a87eb7b11511.jpg)
 
 ### Halaman resep bersadarkan kategori
-![Screenshot_1680422724](https://user-images.githubusercontent.com/94782135/229340594-b8ffd211-4c11-4f79-922b-7d2dab65e727.png)
+![BeFunky-collage (3)](https://user-images.githubusercontent.com/94782135/229340830-f53d087e-0ca3-4e8d-82a3-5cfa64b631ae.jpg)
