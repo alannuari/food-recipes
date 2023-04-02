@@ -1,5 +1,14 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from 'react-native';
+
+const {width} = Dimensions.get('window');
 
 const CategoryItem = ({id, title, imageUrl, navigation}) => {
   const pressHandler = () => {
@@ -20,11 +29,10 @@ const CategoryItem = ({id, title, imageUrl, navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     height: 150,
     paddingHorizontal: 5,
     marginVertical: 5,
-    maxWidth: '50%',
+    width: width / 2,
   },
   item: {
     backgroundColor: 'white',

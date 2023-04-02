@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+
+const {width} = Dimensions.get('window');
 
 const SkeletonItem = () => {
   return (
@@ -16,11 +24,10 @@ const SkeletonItem = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     height: 150,
     paddingHorizontal: 5,
     marginVertical: 5,
-    maxWidth: '50%',
+    width: width / 2,
   },
   item: {
     backgroundColor: 'white',

@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     height,
     width,
-    marginBottom: 5,
+    marginBottom: 10,
   },
   scroll: {
     width,
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     alignSelf: 'center',
+    marginBottom: 5,
   },
   pagingText: {
     marginHorizontal: 4,
