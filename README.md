@@ -5,7 +5,12 @@ Food Recipes adalah aplikasi android yang digunakan untuk menampilkan dan menamb
 - Login dan Register
 - Add recipe
 - Delete recipe
-- Favorite
+- Add and delete recipe from favorite
+- Show Caterories
+- Show Recipes based on Category
+- Show recipe details
+- Show Recipes that has been created before
+- Show Favorite recipes
 
 ## Demo Aplikasi
 ### Halaman splash, login, dan register
@@ -16,3 +21,6 @@ Food Recipes adalah aplikasi android yang digunakan untuk menampilkan dan menamb
 
 ### Halaman profile, add recipe, dan recipe details
 ![BeFunky-collage (2)](https://user-images.githubusercontent.com/94782135/229340192-5a20f6e5-94f6-489c-8824-a87eb7b11511.jpg)
+
+### Halaman resep bersadarkan kategori
+![Screenshot_1680422724](https://user-images.githubusercontent.com/94782135/229340594-b8ffd211-4c11-4f79-922b-7d2dab65e727.png)
