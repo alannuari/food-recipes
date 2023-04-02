@@ -36,6 +36,7 @@ const FavoriteScreen = ({navigation}) => {
               title={item.title}
               imageUrl={item.imageUrl}
               complexity={item.complexity}
+              duration={item.duration}
               navigation={navigation}
             />
           )}

@@ -2,20 +2,35 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import complexities from '../data/tr_complexities.json';
 
-const FavoriteItem = ({id, title, imageUrl, complexity, navigation}) => {
+const FavoriteItem = ({
+  id,
+  title,
+  imageUrl,
+  complexity,
+  duration,
+  navigation,
+}) => {
   const pressHandler = () => {
     navigation.navigate('Details', id);
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={pressHandler} style={styles.placeitem}>
+      <TouchableOpacity onPress={pressHandler} style={styles.placeItem}>
         <Image style={styles.image} source={{uri: imageUrl}} />
         <View style={styles.infoContainer}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.complexity}>
+          <View>
+            <Text style={styles.title}>
+              jshdkjas dskd s d d d d d d d d d d d d d s
+            </Text>
+            <Text style={styles.duration}>
+              {duration} minutes ⬤{' '}
+              {complexities.data.find(item => item.id === complexity)?.name}
+            </Text>
+          </View>
+          {/* <Text style={styles.complexity}>
             {complexities.data.find(item => item.id === complexity)?.name}
-          </Text>
+          </Text> */}
         </View>
       </TouchableOpacity>
     </View>
@@ -26,10 +41,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  placeitem: {
+  placeItem: {
     marginVertical: 5,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
+    padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -37,7 +51,7 @@ const styles = StyleSheet.create({
   image: {
     width: 70,
     height: 70,
-    borderRadius: 15,
+    borderRadius: 10,
   },
   infoContainer: {
     flexDirection: 'row',
@@ -50,12 +64,13 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     fontWeight: 'bold',
   },
+  duration: {
+    fontSize: 12,
+  },
   complexity: {
-    fontSize: 18,
     paddingHorizontal: 8,
-    backgroundColor: 'blue',
+    backgroundColor: 'gray',
     color: 'white',
-    borderRadius: 10,
   },
 });
 
