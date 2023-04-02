@@ -20,17 +20,12 @@ const FavoriteItem = ({
         <Image style={styles.image} source={{uri: imageUrl}} />
         <View style={styles.infoContainer}>
           <View>
-            <Text style={styles.title}>
-              jshdkjas dskd s d d d d d d d d d d d d d s
-            </Text>
+            <Text style={styles.title}>{title}</Text>
             <Text style={styles.duration}>
               {duration} minutes ⬤{' '}
               {complexities.data.find(item => item.id === complexity)?.name}
             </Text>
           </View>
-          {/* <Text style={styles.complexity}>
-            {complexities.data.find(item => item.id === complexity)?.name}
-          </Text> */}
         </View>
       </TouchableOpacity>
     </View>
