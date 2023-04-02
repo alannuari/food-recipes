@@ -8,6 +8,7 @@ const SkeletonFavorite = () => {
         <Text style={styles.image}></Text>
         <View style={styles.infoContainer}>
           <Text style={styles.title}></Text>
+          <Text style={styles.duration}></Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -20,8 +21,7 @@ const styles = StyleSheet.create({
   },
   placeitem: {
     marginVertical: 5,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
+    padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   image: {
     width: 70,
     height: 70,
-    borderRadius: 15,
+    borderRadius: 10,
     backgroundColor: '#e1e1e1',
   },
   infoContainer: {
@@ -39,11 +39,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   title: {
-    fontSize: 18,
-    marginBottom: 5,
+    marginBottom: 8,
     height: 14,
     borderRadius: 7,
     width: 100,
+    backgroundColor: '#e1e1e1',
+  },
+  duration: {
+    height: 10,
+    borderRadius: 7,
+    width: 120,
     backgroundColor: '#e1e1e1',
   },
 });

@@ -62,11 +62,6 @@ const styles = StyleSheet.create({
   duration: {
     fontSize: 12,
   },
-  complexity: {
-    paddingHorizontal: 8,
-    backgroundColor: 'gray',
-    color: 'white',
-  },
 });
 
 export default FavoriteItem;
