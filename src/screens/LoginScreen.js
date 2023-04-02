@@ -10,7 +10,7 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import Photo from '../assets/images/photo.svg';
+import Login from '../assets/images/login.svg';
 import ButtonComponent from '../components/ButtonComponent';
 import InputComponent from '../components/InputComponent';
 import {AuthContext} from '../navigations/AuthProvider';
@@ -57,10 +57,11 @@ const LoginScreen = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.image}>
-            <Photo width={'100%'} height={400} />
+            <Login width={'100%'} height={400} />
           </View>
           <View style={styles.formContainer}>
             <View style={styles.form}>
+              <Text style={styles.title}>LOGIN</Text>
               <InputComponent
                 name="at"
                 placeholder="Email"
@@ -111,10 +112,17 @@ const styles = StyleSheet.create({
   },
   form: {
     flex: 1,
-    paddingTop: 70,
+    paddingTop: 20,
     paddingHorizontal: 20,
     backgroundColor: 'white',
     borderTopLeftRadius: 100,
+  },
+  title: {
+    color: '#6C63FF',
+    fontSize: 24,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginBottom: 20,
   },
   text: {
     justifyContent: 'center',
@@ -122,7 +130,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   signup: {
-    color: 'blue',
+    color: '#6C63FF',
     fontWeight: 'bold',
   },
 });

@@ -55,10 +55,11 @@ const SignUpScreen = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.image}>
-            <SignUp width={'100%'} height={270} />
+            <SignUp width={'100%'} height={260} />
           </View>
           <View style={styles.formContainer}>
             <View style={styles.form}>
+              <Text style={styles.title}>CREATE ACCOUNT</Text>
               <InputComponent
                 name="at"
                 placeholder="Email"
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#777',
     borderBottomRightRadius: 100,
+    paddingBottom: 10,
   },
   formContainer: {
     flex: 1,
@@ -113,11 +115,18 @@ const styles = StyleSheet.create({
   },
   form: {
     flex: 1,
-    paddingVertical: 70,
+    paddingTop: 20,
     paddingHorizontal: 20,
     backgroundColor: 'white',
     borderTopLeftRadius: 100,
     borderBottomLeftRadius: 100,
+  },
+  title: {
+    color: '#6C63FF',
+    fontSize: 24,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginBottom: 20,
   },
   text: {
     justifyContent: 'center',
@@ -125,7 +134,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   login: {
-    color: 'blue',
+    color: '#6C63FF',
     fontWeight: 'bold',
   },
 });
