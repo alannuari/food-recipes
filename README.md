@@ -1,6 +1,11 @@
 ## Food Recipes
 Food Recipes adalah aplikasi android yang digunakan untuk menampilkan dan menambahkan resep makanan
 
+## Tech Stack
+- React Native
+- Firebase
+- Redux
+
 ## Fitur-fitur
 - Login dan Register
 - Add recipe
