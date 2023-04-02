@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 200,
-    borderRadius: 15,
   },
   details: {
     flexDirection: 'row',
