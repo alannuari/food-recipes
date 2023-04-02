@@ -1,9 +1,11 @@
-import React, {useContext} from 'react';
+import React, {useContext, useLayoutEffect} from 'react';
 import {View, Text, ScrollView, Image, StyleSheet, Alert} from 'react-native';
 import ButtonComponent from '../components/ButtonComponent';
 import {AuthContext} from '../navigations/AuthProvider';
+import HeaderButtonIcon from '../components/HeaderButtonIcon';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   const {user, logout} = useContext(AuthContext);
 
   const logoutHandler = () => {
@@ -17,6 +19,21 @@ const ProfileScreen = () => {
       },
     ]);
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButtonIcon}>
+          <Item
+            title="favorite"
+            iconName={'log-out-outline'}
+            onPress={logoutHandler}
+          />
+        </HeaderButtons>
+      ),
+    });
+  }, []);
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.imageContainer}>
@@ -34,9 +51,6 @@ const ProfileScreen = () => {
       <View style={styles.recentItem}>
         <Text>~ email : {user.email}</Text>
         <Text>~ country : Indonesia</Text>
-      </View>
-      <View style={styles.button}>
-        <ButtonComponent title="Log Out" onPress={logoutHandler} />
       </View>
     </ScrollView>
   );
@@ -79,10 +93,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     marginHorizontal: 35,
-  },
-  button: {
-    marginTop: 60,
-    marginHorizontal: 100,
   },
 });
 
