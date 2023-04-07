@@ -19,9 +19,15 @@ export const AuthProvider = ({children}) => {
     }
   };
 
-  const registerHandler = async (email, password) => {
+  const registerHandler = async (name, email, password) => {
     try {
-      await auth().createUserWithEmailAndPassword(email, password);
+      const result = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+      await result.user.updateProfile({
+        displayName: name,
+      });
     } catch (error) {
       console.log(error);
     }

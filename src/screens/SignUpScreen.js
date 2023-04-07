@@ -16,6 +16,7 @@ import InputComponent from '../components/InputComponent';
 import {AuthContext} from '../navigations/AuthProvider';
 
 const SignUpScreen = ({navigation}) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,9 +28,9 @@ const SignUpScreen = ({navigation}) => {
   };
 
   const signUpHandler = () => {
-    if (email && password && confirmPassword) {
+    if (name && email && password && confirmPassword) {
       if (password === confirmPassword) {
-        register(email, password);
+        register(name, email, password);
       } else {
         Alert.alert('Error', 'Password tidak sama!', [
           {
@@ -55,11 +56,18 @@ const SignUpScreen = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.image}>
-            <SignUp width={'100%'} height={260} />
+            <SignUp width={'100%'} height={190} />
           </View>
           <View style={styles.formContainer}>
             <View style={styles.form}>
               <Text style={styles.title}>CREATE ACCOUNT</Text>
+              <InputComponent
+                name="user"
+                placeholder="Name"
+                label="Name"
+                value={name}
+                setValue={setName}
+              />
               <InputComponent
                 name="at"
                 placeholder="Email"
@@ -111,7 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#777',
     justifyContent: 'center',
-    height: Dimensions.get('window').height - 270,
+    height: Dimensions.get('window').height - 200,
   },
   form: {
     flex: 1,

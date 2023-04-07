@@ -3,9 +3,10 @@ import {View, Text, ScrollView, Image, StyleSheet, Alert} from 'react-native';
 import {AuthContext} from '../navigations/AuthProvider';
 import HeaderButtonIcon from '../components/HeaderButtonIcon';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import auth from '@react-native-firebase/auth';
 
 const ProfileScreen = ({navigation}) => {
-  const {user, logout} = useContext(AuthContext);
+  const {user, logout, setUser} = useContext(AuthContext);
 
   const logoutHandler = () => {
     Alert.alert('Konfirmation', 'Apakah anda ingin keluar ?', [
@@ -31,6 +32,7 @@ const ProfileScreen = ({navigation}) => {
         </HeaderButtons>
       ),
     });
+    setUser(auth().currentUser);
   }, []);
 
   return (
@@ -44,7 +46,7 @@ const ProfileScreen = ({navigation}) => {
           />
         </View>
         <View style={styles.identity}>
-          <Text style={styles.name}>Dummy Name</Text>
+          <Text style={styles.name}>{user.displayName}</Text>
           <Text style={styles.bio}>No Bio</Text>
           <Text style={styles.email}>email : {user.email}</Text>
         </View>
