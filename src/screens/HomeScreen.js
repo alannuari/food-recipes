@@ -1,5 +1,5 @@
 import React, {useLayoutEffect, useContext} from 'react';
-import {View, StyleSheet, Text, Dimensions, ScrollView} from 'react-native';
+import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Carousel from '../components/Carousel';
 import CategoryItem from '../components/CategoryItem';
@@ -7,8 +7,6 @@ import SkeletonItem from '../components/SkeletonItem';
 import {AuthContext} from '../navigations/AuthProvider';
 import {fetchCategory} from '../store/action/category';
 import {fetchFavorite} from '../store/action/favorite';
-
-const {width} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
   const {user} = useContext(AuthContext);
@@ -24,7 +22,7 @@ const HomeScreen = ({navigation}) => {
     <View style={styles.container}>
       <ScrollView>
         <Carousel />
-        <Text style={styles.category}>Categories</Text>
+        <Text style={styles.category}>Food Categories</Text>
         <View
           style={{
             flex: 2,
@@ -56,7 +54,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   category: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     borderRadius: 5,
     marginBottom: 5,
