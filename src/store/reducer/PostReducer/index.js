@@ -2,6 +2,7 @@ import {LOADING_POSTS, SHOW_POSTS} from '../../type';
 
 const initialState = {
   data: [],
+  total: 0,
   loading: true,
   error: false,
 };
@@ -17,6 +18,7 @@ const PostReducer = (state = initialState, action) => {
       return {
         ...state,
         data: action.payload,
+        total: action.payload.length,
         loading: false,
       };
     default:

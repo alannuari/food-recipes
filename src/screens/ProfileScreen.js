@@ -4,9 +4,12 @@ import {AuthContext} from '../navigations/AuthProvider';
 import HeaderButtonIcon from '../components/HeaderButtonIcon';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import auth from '@react-native-firebase/auth';
+import {useSelector} from 'react-redux';
 
 const ProfileScreen = ({navigation}) => {
   const {user, logout, setUser} = useContext(AuthContext);
+  const {total: totalFavorite} = useSelector(state => state.favorite);
+  const {total: totalPost} = useSelector(state => state.post);
 
   const logoutHandler = () => {
     Alert.alert('Konfirmation', 'Apakah anda ingin keluar ?', [
@@ -54,11 +57,11 @@ const ProfileScreen = ({navigation}) => {
       <Text style={styles.text}>Information</Text>
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Total Favorite</Text>
-        <Text style={styles.cardContent}>20</Text>
+        <Text style={styles.cardContent}>{totalFavorite}</Text>
       </View>
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Total Recipe Post</Text>
-        <Text style={styles.cardContent}>10</Text>
+        <Text style={styles.cardContent}>{totalPost}</Text>
       </View>
     </ScrollView>
   );
