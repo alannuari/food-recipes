@@ -5,12 +5,16 @@ import RecipeItem from '../components/RecipeItem';
 import SkeletonItem from '../components/SkeletonItem';
 import {fetchRecipe} from '../store/action/recipe';
 import NotFoundScreen from './NotFoundScreen';
+import categories from '../data/tr_categories.json';
 
 const RecipeScreen = ({route, navigation}) => {
   const {data, loading} = useSelector(state => state.recipe);
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
+    navigation.setOptions({
+      title: categories.data.find(item => item.id === route.params)?.name,
+    });
     dispatch(fetchRecipe(route.params));
   }, [dispatch]);
 
